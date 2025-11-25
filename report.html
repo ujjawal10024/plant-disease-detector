@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ strings['pdf_title'] }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            color: #333;
+        }
+        h2 {
+            color: #2e7d32;
+            border-bottom: 2px solid #2e7d32;
+            padding-bottom: 10px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        strong {
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <h2>{{ strings['pdf_title'] }}</h2>
+    <p><strong>{{ strings['pdf_disease_label'] }}:</strong> {{ prediction }}</p>
+    <p><strong>{{ strings['pdf_description_label'] }}:</strong> {{ description }}</p>
+    <p><strong>{{ strings['pdf_steps_label'] }}:</strong> {{ steps }}</p>
+    <p><strong>{{ strings['pdf_supplement_label'] }}:</strong> {{ supplement }}</p>
+</body>
+</html>
+

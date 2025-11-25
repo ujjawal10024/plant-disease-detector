@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ strings['predict_page_title'] }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e8f5e9;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .container {
+            max-width: 520px;
+            margin-top: 80px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .language-switcher {
+            text-align: right;
+            padding: 20px;
+        }
+        .language-switcher form {
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .language-switcher select {
+            min-width: 160px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="language-switcher">
+        <form method="get" action="{{ request.path }}">
+            <label class="fw-semibold">{{ strings['language_label'] }}</label>
+            <select class="form-select form-select-sm" name="lang" onchange="this.form.submit()">
+                {% for code, label in language_options.items() %}
+                <option value="{{ code }}" {% if code == lang %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <div class="container text-center">
+        <h2 class="mb-4 text-success">{{ strings['upload_heading'] }}</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ 'warning' if category == 'warning' else 'info' }} text-start" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="lang" value="{{ lang }}">
+            <input class="form-control mb-3" type="file" name="image" accept="image/*" required>
+            <button class="btn btn-success w-100" type="submit">{{ strings['predict_button'] }}</button>
+        </form>
+        <p class="small mt-3">{{ strings['supported_formats'] }}</p>
+        <div class="d-flex flex-column gap-2">
+            <a class="btn btn-outline-success" href="{{ url_for('disease_info', lang=lang) }}">📚 {{ strings['info_cta'] }}</a>
+            <a class="btn btn-link" href="{{ url_for('index', lang=lang) }}">← {{ strings['back_home'] }}</a>
+        </div>
+    </div>
+</body>
+</html>
+

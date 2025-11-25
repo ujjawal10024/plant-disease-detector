@@ -1,0 +1,8 @@
+Flask
+tensorflow
+numpy
+pandas
+Pillow
+xhtml2pdf
+Werkzeug
+googletrans==4.0.0rc1

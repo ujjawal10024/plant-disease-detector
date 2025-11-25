@@ -1,0 +1,11 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+.vscode/
+result.pdf
+result.html
+server.log
+.ipynb_checkpoints/
+Plant_disease_Predictive_System.h5

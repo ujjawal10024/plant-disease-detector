@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ strings['result_page_title'] }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f1f8e9;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .result-card {
+            max-width: 760px;
+            margin: 60px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .language-switcher {
+            text-align: right;
+            padding: 20px 40px 0 40px;
+        }
+        .language-switcher form {
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .language-switcher select {
+            min-width: 160px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="language-switcher">
+        <form method="get" action="{{ request.path }}">
+            <label class="fw-semibold">{{ strings['language_label'] }}</label>
+            <select class="form-select form-select-sm" name="lang" onchange="this.form.submit()">
+                {% for code, label in language_options.items() %}
+                <option value="{{ code }}" {% if code == lang %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <div class="result-card">
+        <h2 class="text-success">{{ strings['result_heading'] }}: {{ prediction }}</h2>
+        <hr>
+        <p><strong>{{ strings['description_label'] }}:</strong> {{ disease_info['Description'] }}</p>
+        <p><strong>{{ strings['steps_label'] }}:</strong> {{ disease_info['Steps'] }}</p>
+        <p><strong>{{ strings['supplement_label'] }}:</strong> {{ supplement_info['Name'] }}</p>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+            <a class="btn btn-success"
+               href="{{ url_for('download_pdf',
+                                prediction=prediction,
+                                desc=disease_info['Description'],
+                                steps=disease_info['Steps'],
+                                supp=supplement_info['Name'],
+                                link=supplement_info['Link'],
+                                lang=lang) }}">
+                {{ strings['download_pdf'] }}
+            </a>
+            <a class="btn btn-outline-success" href="{{ url_for('predict', lang=lang) }}">🔁 {{ strings['predict_again'] }}</a>
+            <a class="btn btn-outline-success" href="{{ url_for('index', lang=lang) }}">← {{ strings['back_home'] }}</a>
+        </div>
+    </div>
+</body>
+</html>
+
